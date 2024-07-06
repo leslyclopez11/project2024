@@ -1,12 +1,19 @@
 import java.util.List;
 import java.util.Scanner;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class UserInterface {
 
 	private DataManager dataManager;
 	private Organization org;
 	private Scanner in = new Scanner(System.in);
-	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+
+
 	public UserInterface(DataManager dataManager, Organization org) {
 		this.org = org;
 		this.dataManager = dataManager;
@@ -192,8 +199,9 @@ public class UserInterface {
 		System.out.println("Number of donations: " + donationsList.size());
 		for (Donation donation : donationsList) {
 			total_amount += donation.getAmount();
+			String date = Instant.parse(donation.getDate()).atZone(ZoneId.systemDefault()).format(formatter);
 			System.out.println("* " + donation.getContributorName() + ": $" + donation.getAmount() 
-			+ " on " + donation.getDate());
+			+ " on " + date);
 		}
 	
 		System.out.printf("Total donation amount: $%d (%.2f%% of target)%n", total_amount,

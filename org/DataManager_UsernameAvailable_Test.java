@@ -31,7 +31,7 @@ public class DataManager_UsernameAvailable_Test {
         DataManager dm = new DataManager(new WebClient("localhost", 3001) {
             @Override
             public String makeRequest (String resource, Map<String, Object> queryParams){
-                return "{\"status\":\"taken\"}";
+                return "{\"status\":\"username already taken\"}";
             }
 
         });
@@ -45,7 +45,7 @@ public class DataManager_UsernameAvailable_Test {
         DataManager dm = new DataManager(new WebClient("localhost", 3001) {
             @Override
             public String makeRequest (String resource, Map<String, Object> queryParams){
-                return "{\"status\":\"available\"}";
+                return "{\"status\":\"username available\"}";
             }
 
         });

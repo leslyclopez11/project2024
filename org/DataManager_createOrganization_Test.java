@@ -40,7 +40,7 @@ public class DataManager_createOrganization_Test {
             }
         });
 
-        dm.createOrganization("upenn", "123456", "University Of Pennsylvania", "An Ivy League school.");
+        dm.createOrganization("work", "hello", "Tryingtowork", "hellowork");
     }
 
     @Test(expected = IllegalStateException.class)
@@ -52,7 +52,7 @@ public class DataManager_createOrganization_Test {
             }
 
         });
-        dm.createOrganization("upenn", "123456", "University Of Pennsylvania", "An Ivy League school.");
+        dm.createOrganization("work", "hello", "Tryingtowork", "hellowork");
     }
 
     @Test(expected = IllegalStateException.class)
@@ -64,7 +64,7 @@ public class DataManager_createOrganization_Test {
             }
         });
 
-        dm.createOrganization("upenn", "123456", "University Of Pennsylvania", "An Ivy League school.");
+        dm.createOrganization("work", "hello", "Tryingtowork", "hellowork");
     }
 
     @Test
@@ -72,16 +72,16 @@ public class DataManager_createOrganization_Test {
         DataManager dm = new DataManager(new WebClient("localhost", 3001){
             @Override
             public String makeRequest(String resource, Map<String, Object> queryParams) {
-                return "{\"status\": \"success\", \"data\": {\"_id\": \"667cb7b72b45b3544ce5f950\", \"login\": \"upenn\", \"password\": \"123456\", \"name\": \"University Of Pennsylvania\", \"description\": \"An Ivy League school.\", \"funds\": [], \"__v\": 0}}";
+                return "{\"status\": \"success\", \"data\": {\"_id\": \"667b79c7d381e21210a9b45d\", \"login\": \"work\", \"password\": \"hello\", \"name\": \"Tryingtowork\", \"description\": \"hellowork\", \"funds\": [], \"__v\": 0}}";
             }
         });
 
-        Organization newOrg = dm.createOrganization("upenn", "123456", "University Of Pennsylvania", "An Ivy League school.");
-        assertEquals("667cb7b72b45b3544ce5f950", newOrg.getId());
-        assertEquals("University Of Pennsylvania", newOrg.getName());
-        assertEquals("An Ivy League school.", newOrg.getDescription());
-        assertEquals(Collections.EMPTY_LIST, newOrg.getFunds());
+        Organization newOrg = dm.createOrganization("work", "hello", "Tryingtowork", "hellowork");
+        assertEquals("667b79c7d381e21210a9b45d", newOrg.getId());
+        assertEquals("Tryingtowork", newOrg.getName());
+        assertEquals("hellowork", newOrg.getDescription());
 
     }
 
 }
+

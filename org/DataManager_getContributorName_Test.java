@@ -14,7 +14,7 @@ public class DataManager_getContributorName_Test {
         DataManager dm = new DataManager(new WebClient("localhost", 3001) {
             @Override 
             public String makeRequest(String resource, Map<String, Object> queryParams) {
-                return "{\"name\":\"Lesly\"}";
+                return "{\"status\":\"success\",\"data\":\"Lesly\"}";
             }
         });
 
@@ -22,7 +22,7 @@ public class DataManager_getContributorName_Test {
         assertEquals("Lesly", contributor_Name);
     }
 
-    @Test 
+    @Test(expected = IllegalStateException.class)
     public void testGetContributorNameException() {
         DataManager dm = new DataManager(new WebClient("localhost", 3001) {
             @Override 
@@ -35,6 +35,49 @@ public class DataManager_getContributorName_Test {
         assertNull(contributor_Name);
 
     }
+    
+    @Test(expected = IllegalStateException.class)
+	public void testNullResponse() {
+		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
+			
+			@Override
+			public String makeRequest(String resource, Map<String, Object> queryParams) {
+				return null;
+
+			}
+			
+		});
+		String contributor_Name = dm.getContributorName("6668db089d6aab58f8cf8d8d");
+	}
+    
+    @Test(expected = IllegalStateException.class)
+	public void testNullContributor() {
+		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
+			
+			@Override
+			public String makeRequest(String resource, Map<String, Object> queryParams) {
+				return null;
+
+			}
+			
+		});
+		String contributor_Name = dm.getContributorName(null);
+	}
+    
+    @Test(expected = IllegalStateException.class)
+	public void testInvalidJSONResponse() {
+		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
+			
+			@Override
+			public String makeRequest(String resource, Map<String, Object> queryParams) {
+				return "Invalid JSON";
+
+			}
+			
+		});
+		String contributor_Name = dm.getContributorName("6668db089d6aab58f8cf8d8d");
+
+	}
 
     @Test 
     public void testGetContributorNameFail() {

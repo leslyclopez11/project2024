@@ -15,7 +15,26 @@ public class DataManager_createFund_Test {
 	 * When writing tests for other methods, be sure to put them into separate
 	 * JUnit test classes.
 	 */
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testNullParameters() {
+		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
+			
+			@Override
+			public String makeRequest(String resource, Map<String, Object> queryParams) {
+				return "{\"status\":\"success\",\"data\":{\"_id\":\"12345\",\"name\":\"new fund\",\"description\":\"this is the new fund\",\"target\":10000,\"org\":\"5678\",\"donations\":[],\"__v\":0}}";
 
+			}
+			
+		});
+		
+		
+		Fund f = dm.createFund(null, null, null, 10);
+		
+	}
+	
+	
 	@Test
 	public void testSuccessfulCreation() {
 
@@ -45,18 +64,18 @@ public class DataManager_createFund_Test {
 			
 			@Override
 			public String makeRequest(String resource, Map<String, Object> queryParams) {
-				return "{\"status\":\"error\",\"data\":{\"_id\":\"12345\",\"name\":\"new fund\",\"description\":\"this is the new fund\",\"target\":10000,\"org\":\"5678\",\"donations\":[],\"__v\":0}}";
+				return "{\"status\":\"error\",\"data\":{\"_id\":\"34\",\"name\":\"new fund\",\"description\":\"the new fund\",\"target\":10000,\"org\":\"5678\",\"donations\":[],\"__v\":0}}";
 
 			}
 			
 		});
 
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", 10000);
+		Fund f = dm.createFund("34", "new fund", "the new fund", 10000);
 		assertNull(f);
 
 	}
 
-	@Test 
+	@Test(expected = IllegalStateException.class)
 	public void testExceptionThrownDuringRequest() {
 		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
 			
@@ -67,12 +86,11 @@ public class DataManager_createFund_Test {
 			}
 			
 		});
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", 10000);
-		assertNull(f);
+		Fund f = dm.createFund("25", "new fund", "the new fund", 10000);
 
 	}
 
-	@Test 
+	@Test(expected = IllegalStateException.class)
 	public void testInvalidJSONResponse() {
 		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
 			
@@ -83,7 +101,7 @@ public class DataManager_createFund_Test {
 			}
 			
 		});
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", 10000);
+		Fund f = dm.createFund("23", "new fund", "the new fund", 10000);
 		assertNull(f);
 
 	}
@@ -94,17 +112,17 @@ public class DataManager_createFund_Test {
 			
 			@Override
 			public String makeRequest(String resource, Map<String, Object> queryParams) {
-				return "{\"status\":\"nostatus\",\"data\":{\"_id\":\"12345\",\"name\":\"new fund\",\"description\":\"this is the new fund\",\"target\":10000,\"org\":\"5678\",\"donations\":[],\"__v\":0}}";
+				return "{\"status\":\"nostatus\",\"data\":{\"_id\":\"45\",\"name\":\"new fund\",\"description\":\"the new fund\",\"target\":10000,\"org\":\"5678\",\"donations\":[],\"__v\":0}}";
 
 			}
 			
 		});
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", 10000);
+		Fund f = dm.createFund("45", "new fund", "the new fund", 10000);
 		assertNull(f);
 
 	}
 	
-	@Test 
+	@Test(expected = IllegalStateException.class)
 	public void testNullResponse() {
 		DataManager dm = new DataManager(new WebClient("localhost", 3001) {
 			
@@ -115,8 +133,7 @@ public class DataManager_createFund_Test {
 			}
 			
 		});
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", 10000);
-		assertNull(f);
+		Fund f = dm.createFund("45", "new fund", "the new fund", 10000);
 	}
 
 	@Test
@@ -128,7 +145,7 @@ public class DataManager_createFund_Test {
 			}
 		});
 		
-		Fund f = dm.createFund("12345", "", "this is the new fund", 10000);
+		Fund f = dm.createFund("45", "", "the new fund", 10000);
 		
 		assertNull(f);
 	}
@@ -142,10 +159,11 @@ public class DataManager_createFund_Test {
 			}
 		});
 		
-		Fund f = dm.createFund("12345", "new fund", "this is the new fund", -100);
+		Fund f = dm.createFund("45", "new fund", "the new fund", -100);
 		
 		assertNull(f);
 	}
 
 
 }
+

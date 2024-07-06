@@ -48,9 +48,6 @@ public class DataManager {
 
 			if (status.equals("success")) {
 				JSONObject data = (JSONObject)json.get("data");
-				if (data == null) {
-					return null;
-				}
 				String fundId = (String)data.get("_id");
 				String name = (String)data.get("name");
 				String description = (String)data.get("description");
