@@ -76,6 +76,7 @@ public class UserInterface {
                     createFund();
                 } else if (option > 0 && option <= org.getFunds().size()) {
                     displayFund(option);
+
                 } else {
                     System.out.println("Please enter a valid fund number.");
 					System.out.println("Enter 0 to create a new fund, or enter 'q' or 'quit' to exit.");
@@ -207,11 +208,17 @@ public class UserInterface {
 		System.out.printf("Total donation amount: $%d (%.2f%% of target)%n", total_amount,
                 ((double) total_amount / fund_num.getTarget()) * 100);
 
-		System.out.println("Enter 'a' to see aggregated donations by contributor or press Enter to go back to the listing of funds");
+		System.out.println("Enter 'a' to see aggregated donations by contributor.");
+        System.out.println("Enter 'l' or 'logout' to log out.");
+        System.out.println("Press Enter to go back to the listing of funds");
 		String input = in.nextLine().trim();
 		if (input.equals("a")) {
 			displayAggDonations(fund_num);
-		}
+		} else if (input.equals("l") || input.equals("logout")) {
+            logout();
+            initialPrompt();
+            System.out.println("\n");
+        }
 		
 	}
 	
