@@ -30,7 +30,7 @@ public class WebClient {
 			}
 			
 			//System.out.println("Web Client request: " + request);
-			
+			@SuppressWarnings("deprecation")
 			URL url = new URL(request);
 		    url.openConnection(); 
 	    	Scanner in = new Scanner(url.openStream());
